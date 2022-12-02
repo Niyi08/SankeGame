@@ -33,7 +33,10 @@ public class HelloApplication extends Application {
     private double mouseX;
     private int puntaje;
 
-    //Esta funcion se encarga de configurar la ventana y el escenario del juego
+    /**
+     * Esta funcion se encarga de configurar la ventana y el escenario del juego
+     * @param stage El escenario o ventana a configurar
+     **/
     @Override
     public void start(Stage stage) throws IOException {
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
@@ -51,7 +54,11 @@ public class HelloApplication extends Application {
         stage.show();
     }
 
-    //Esta funcion se encarga de configurar los valores iniciales del juego
+    /**
+     * Esta funcion se encarga de configurar los valores iniciales del juego
+     * 
+     **/
+    
     private void setup(){
         jugador = new Jugador(Constantes.WIDTH / 2, 60,PLAYER_IMAGE);
         Obstaculos = new ArrayList<>();
@@ -62,7 +69,10 @@ public class HelloApplication extends Application {
     private int contador2 = 0;
     private int colisiones = 0;
 
-    //Esta funcion renderiza cada frame
+    /**
+     * Esta funcion renderiza cada frame
+     * @param gc El contexto de graficos que permite "dibujar" en la ventana
+     **/
     private void run(GraphicsContext gc){
         //Aqui se dibuja el fondo del juego
         gc.setFill(Color.rgb(170,215,81));
