@@ -1,6 +1,11 @@
 package com.example.snake;
 
-//Clase que genera una pregunta matematica aleatoria
+/**
+ * Clase que genera una pregunta matematica
+ * 
+ * @author Oscar Castillejo Rodriguez, Juliana Castaño Aguirre, Lorena Cortes Ballesteros, Fredy Cuesta Mena, Cristian Cuenca Trujillo
+ **/
+
 public class GenerarPregunta {
 
     static String[] operaciones = {"SUMA", "RESTA", "MULTI"};
@@ -8,6 +13,10 @@ public class GenerarPregunta {
     public static int n2 = (int)(Math.random()*10+1);
     public static String operacion = operaciones[(int)(Math.random()*3)];
 
+    /**
+    * Esta funcion genera una pregunta matematica en String
+    * @return r Una operacion aritmetica entre dos numeros enteros
+    **/
     public static String gen(){
         String r="";
         if (operacion == "SUMA"){
