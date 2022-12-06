@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+
 /**
  *
  * @author oscar
@@ -37,13 +38,26 @@ public class GenerarPreguntaTest {
     }
 
     /**
-     * Test of gen method, of class GenerarPregunta.
+     * Test de la funcion gen de la clase GenerarPregunta.
+     * Verifica si el resultado de la operacion esta entre 0 y 20
      */
     @Test
     public void testGen() {
         System.out.println("gen");  
-        Integer expResult = 5;
-        Integer result = GenerarPregunta.gen().split("").length;
+        boolean expResult = true;
+        boolean result = false;
+        String pregunta = GenerarPregunta.gen();
+        int n1 = Integer.parseInt(pregunta.split(" ")[0]);
+        int n2 = Integer.parseInt(pregunta.split(" ")[2]);
+        String op = pregunta.split(" ")[1];
+        if("+".equals(op)){
+            result = n1+n2<=20 && n1+n2>0;
+        }else if("-".equals(op)){
+            result = n1-n2<=20 && n1-n2>0;
+        }else if("x".equals(op)){
+            result = n1*n2<=20 && n1*n2>0;
+        }
+        System.out.println(n1+op+n2);
         assertEquals(expResult, result);
         // TODO review the generated test code and remove the default call to fail.
         if(expResult!=result){

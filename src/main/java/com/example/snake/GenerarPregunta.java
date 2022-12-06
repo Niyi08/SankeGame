@@ -9,9 +9,6 @@ package com.example.snake;
 public class GenerarPregunta {
 
     static String[] operaciones = {"SUMA", "RESTA", "MULTI"};
-    public static int n1 = (int)(Math.random()*10+1);
-    public static int n2 = (int)(Math.random()*10+1);
-    public static String operacion = operaciones[(int)(Math.random()*3)];
 
     /**
     * Esta funcion genera una pregunta matematica en String
@@ -19,20 +16,29 @@ public class GenerarPregunta {
     **/
     public static String gen(){
         String r="";
-        if (operacion == "SUMA"){
+        String operacion = operaciones[(int)(Math.random()*3)];
+        int n1 = (int)(Math.random()*10+1);
+        int n2 = (int)(Math.random()*10+1);
+        if(operacion == "SUMA"){
             r = n1 + " + " + n2;
-        } else if (operacion == "RESTA") {
-            r = n1 + " - " + n2;
+        }else if(operacion == "RESTA"){
+            if(n1-n2<0){
+                n1 = n1 ^ n2 ^ (n2 = n1);
+                r = n1 + " - " + n2;
+            }else{
+                r = n1 + " - " + n2;
+            }
         } else if (operacion == "MULTI") {
-            r = n1 + " * " + n2;
+            if(n1*n2>20){
+                n1 = (int)(Math.random()*5+1);
+                n2 = (int)(Math.random()*4+1);
+                r = n1 + " x " + n2;
+            }else{
+                r = n1 + " x " + n2;
+            }
         }
         return r;
     }
-
-    private int resp(){
-        return 1;
-    }
-
 }
 
 

@@ -3,7 +3,7 @@ package com.example.snake;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
- * Clase que se encarga de crear obstaculos y frutas.
+ * Clase que se encarga de la creación y control de los objetos con los que interactua el jugador.
  * 
  * @author Oscar Castillejo Rodriguez, Juliana Castaño Aguirre, Lorena Cortes Ballesteros, Fredy Cuesta Mena, Cristian Cuenca Trujillo
  **/
@@ -12,9 +12,13 @@ public abstract class Elemento {
     private int tamanoY;
     private int posX;
     private int posY;
-
+    private int numero = Constantes.RAND.nextInt(0,21);
     public int getTamanoX() {
         return tamanoX;
+    }
+
+    public int getNumero() {
+        return numero;
     }
     public int getTamanoY() {
         return tamanoY;
@@ -50,7 +54,7 @@ public abstract class Elemento {
     }
 
     /**
-    * Esta funcion hace que el elemento suba n pixeles cada frame
+    * Esta funcion hace que el elemento suba N pixeles cada frame
     * 
     **/
     public void update(int speed){
@@ -81,4 +85,6 @@ public abstract class Elemento {
     }
 
     public abstract void draw(GraphicsContext gc);
+
+
 }
