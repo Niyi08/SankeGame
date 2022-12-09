@@ -6,6 +6,7 @@ package com.example.snake;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,16 +46,22 @@ public class JugadorTest {
     public void testDraw() {
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
+        boolean col = true;
+        final Image PLAYER_IMAGE = new Image(getClass().getResourceAsStream("/img/jugador.png"));
+        Jugador instance = new Jugador(20, 60,PLAYER_IMAGE);
         boolean expected = true;
-        boolean actual = true;
+        boolean actual = false;
         System.out.println("draw");
-//        instance.draw(gc);
-        assertEquals(1, 1);
-        if(expected == false){
+        try{
+            instance.draw(gc, col);
+            actual = true;
+        }catch (Exception e){
+            actual = false;
+            System.out.println("Error al tratar de dibujar al jugador: " + e);
             fail("The test case is a prototype.");
         }
-        // TODO review the generated test code and remove the default call to fail.
+
+        assertEquals(expected, actual);
     }
     
 }

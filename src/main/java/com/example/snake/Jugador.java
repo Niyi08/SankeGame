@@ -12,6 +12,10 @@ public class Jugador {
     int tamX = 33;
     int tamY = 70;
     int posX, posY;
+
+    /**
+     * La imagen de la serpiente
+     **/
     Image img;
 
     public Jugador(int posX, int posY, Image img){
@@ -28,9 +32,9 @@ public class Jugador {
      **/
     public void draw(GraphicsContext gc, boolean col){
         if(col){
-            this.img = new Image("file:src/main/resources/img/jugadorA.png");
+            this.img = new Image(getClass().getResourceAsStream("/img/jugadorA.png"));
         }else{
-            this.img = new Image("file:src/main/resources/img/jugador.png");
+            this.img = new Image(getClass().getResourceAsStream("/img/jugador.png"));
         }
         gc.drawImage(img,posX,posY,tamX,tamY);
     }
