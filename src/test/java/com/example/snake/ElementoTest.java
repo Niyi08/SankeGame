@@ -6,6 +6,8 @@ package com.example.snake;
 
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import jdk.jfr.Experimental;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,38 +47,48 @@ public class ElementoTest {
      */
     @Test
     public void testUpdate() {
+        int speed = 2;
+        int y = 90;
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
+        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),y);
         boolean expected = true;
-        boolean actual = true;
+        boolean actual = false;
         System.out.println("update");
-//        instance.draw(gc);
-        assertEquals(1, 1);
-        if(expected == false){
+
+        instance.update(speed);
+        actual = instance.getPosY() == y - speed;
+
+        assertEquals(actual, expected);
+        if(expected != actual){
             fail("The test case is a prototype.");
         }
-        // TODO review the generated test code and remove the default call to fail.
+
     }
 
     /**
-     * Test de la funcion colision de la clase Elemento.
+     * Test de la funcion colision del jugador con un elemento de la clase Elemento.
      * 
      */
     @Test
     public void testColision() {
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
+        int x = 8;
+        final Image PLAYER_IMAGE = new Image(getClass().getResourceAsStream("/img/jugador.png"));
+        Jugador j = new Jugador(x, 60,PLAYER_IMAGE);
+        Elemento instance = new Frutas(40, 50, x,j.tamY);
         boolean expected = true;
-        boolean actual = true;
+        boolean actual = false;
         System.out.println("colision");
-//        instance.draw(gc);
-        assertEquals(1, 1);
-        if(expected == false){
+
+        actual = instance.colision(j);
+
+        assertEquals(actual, expected);
+        if(actual!=expected){
             fail("The test case is a prototype.");
         }
-        // TODO review the generated test code and remove the default call to fail.
+
     }
 
     /**
@@ -87,27 +99,22 @@ public class ElementoTest {
     public void testDraw() {
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
+        Elemento instance = new Frutas(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
         boolean expected = true;
-        boolean actual = true;
+        boolean actual = false;
         System.out.println("draw");
-//        instance.draw(gc);
-        assertEquals(1, 1);
-        if(expected == false){
+        try{
+            instance.draw(gc);
+            actual = true;
+        }catch (Exception e){
+            actual = false;
+            System.out.println("Error al tratar de dibujar un elemento: " + e);
             fail("The test case is a prototype.");
         }
-        // TODO review the generated test code and remove the default call to fail.
+
+        assertEquals(expected, actual);
+
     }
 
-
-    public class ElementoImpl extends Elemento {
-
-        public ElementoImpl() {
-            super(0, 0, 0, 0);
-        }
-
-        public void draw(GraphicsContext gc) {
-        }
-    }
     
 }

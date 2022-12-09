@@ -18,16 +18,16 @@ public class Frutas extends Elemento {
      * Lista de las rutas de imagenes de fruta.
      **/
     String imgList[] = {
-            "file:src/main/resources/img/F1.png",
-            "file:src/main/resources/img/F2.png",
-            "file:src/main/resources/img/F3.png",
-            "file:src/main/resources/img/F4.png",
+            "/img/F1.png",
+            "/img/F2.png",
+            "/img/F3.png",
+            "/img/F4.png",
     };
 
     /**
      * Imagen de fruta al azar.
      **/
-    Image img = new Image(imgList[Constantes.RAND.nextInt(0,4)]);
+    Image img = new Image(getClass().getResourceAsStream(imgList[Constantes.RAND.nextInt(0,4)]));
 
     public Frutas(int tamX, int tamY, int posX, int posY) {
         super(tamX, tamY, posX, posY);
@@ -40,18 +40,18 @@ public class Frutas extends Elemento {
      **/
     @Override
     public void draw(GraphicsContext gc){
-        try{
+//        try{
             if(getPosY() > 0){
                 gc.drawImage(img,getPosX(),getPosY(),getTamanoX(),getTamanoY());
                 gc.setFill(Color.WHITE);
                 gc.setFont(Font.font("verdana", FontWeight.BOLD, FontPosture.REGULAR, 20));
                 gc.fillText(String.valueOf(this.getNumero()), getPosX()+getTamanoX()/2,getPosY()+getTamanoY()/1.35);
-//                System.out.println("holis");
+
             }
 
-        }catch (Exception e){
-            System.out.println("Error " + e);
-        }
+//        }catch (Exception e){
+//            System.out.println("Error " + e);
+//        }
 
     }
 }

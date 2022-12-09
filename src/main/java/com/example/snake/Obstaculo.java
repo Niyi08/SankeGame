@@ -14,15 +14,17 @@ public class Obstaculo extends Elemento {
      * Lista de las rutas de imagenes de fruta.
      **/
     String imgList[] = {
-            "file:src/main/resources/img/1.png",
-            "file:src/main/resources/img/2.png",
-            "file:src/main/resources/img/3.png",
+            "/img/1.png",
+            "/img/2.png",
+            "/img/3.png",
     };
+
+    String seleccion = imgList[Constantes.RAND.nextInt(0,3)];
 
     /**
      * Imagen de obstaculo al azar.
      **/
-    Image img = new Image(imgList[Constantes.RAND.nextInt(0,3)]);
+    Image img = new Image(getClass().getResourceAsStream(seleccion));
     int tammX, tammY;
     public Obstaculo(int tamX, int tamY, int posX, int posY) {
         super(tamX, tamY, posX, posY);
@@ -34,12 +36,14 @@ public class Obstaculo extends Elemento {
      **/
     @Override
     public void draw(GraphicsContext gc){
-        try{
+//        try{
+            tammX = getTamanoX();
+            tammY = getTamanoY();
             if(getPosY() > 0){
-                if (img.getUrl().contains("4")) {
+                if (seleccion.contains("4")) {
                     tammY = getTamanoY()-10;
                     tammX = getTamanoX();
-                }else if(img.getUrl().contains("3")){
+                }else if(seleccion.contains("3")){
                     tammX = getTamanoX() + 20;
                     tammY = getTamanoY();
                 }else{
@@ -51,10 +55,10 @@ public class Obstaculo extends Elemento {
 //                System.out.println("holis");
 
             }
-
-        }catch (Exception e){
-            System.out.println("Error " + e);
-        }
+//
+//        }catch (Exception e){
+//            System.out.println("Error " + e);
+//        }
 
     }
 

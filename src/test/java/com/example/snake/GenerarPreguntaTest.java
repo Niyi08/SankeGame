@@ -59,7 +59,7 @@ public class GenerarPreguntaTest {
         }
         System.out.println(n1+op+n2);
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
+
         if(expResult!=result){
             fail("The test case is a prototype.");
         }

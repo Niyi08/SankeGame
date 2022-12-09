@@ -46,16 +46,20 @@ public class ObstaculoTest {
     public void testDraw() {
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
-//        Elemento instance = new Obstaculo(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
+        Elemento instance = new Obstaculo(40, 50, Constantes.RAND.nextInt(0,Constantes.WIDTH-35),Constantes.RAND.nextInt(Constantes.HEIGHT-10, Constantes.HEIGHT+200));
         boolean expected = true;
-        boolean actual = true;
+        boolean actual = false;
         System.out.println("draw");
-//        instance.draw(gc);
-        assertEquals(1, 1);
-        if(expected == false){
+        try{
+            instance.draw(gc);
+            actual = true;
+        }catch (Exception e){
+            actual = false;
+            System.out.println("Error al tratar de dibujar un obstaculo: " + e);
             fail("The test case is a prototype.");
         }
-        // TODO review the generated test code and remove the default call to fail.
+
+        assertEquals(expected, actual);
     }
     
 }

@@ -30,21 +30,6 @@ import java.util.Random;
  **/
 public class HelloApplication extends Application {
     private static Random RAND = Constantes.RAND;
-    /**
-     * La imagen principal de la serpiente
-     **/
-    static final Image PLAYER_IMAGE = new Image("file:src/main/resources/img/jugador.png");
-    /**
-     * La imagen del cursor
-     **/
-    static final Image CURSOR= new Image("file:src/main/resources/img/cursorB.png");
-    /**
-     * La imagen de los corazones que representan las vidas del jugador
-     **/
-    static final Image VIDAS = new Image("file:src/main/resources/img/heart.png");
-
-    private GraphicsContext gc;
-
 
 
     Jugador jugador;
@@ -82,7 +67,10 @@ public class HelloApplication extends Application {
      **/
     @Override
     public void start(Stage stage) throws IOException {
+        final Image CURSOR= new Image(getClass().getResourceAsStream("/img/cursorB.png"));
         gameOver = true;
+        GraphicsContext gc;
+
         Canvas canvas = new Canvas(Constantes.WIDTH, Constantes.HEIGHT);
         gc = canvas.getGraphicsContext2D();
         //Ejecuta la funcion run() cada 10 milisegundos
@@ -115,9 +103,10 @@ public class HelloApplication extends Application {
 
     /**
      * Esta funcion se encarga de configurar los valores iniciales del juego
-     * 
+     *
      **/
     private void setup(){
+        final Image PLAYER_IMAGE = new Image(getClass().getResourceAsStream("/img/jugador.png"));
         jugador = new Jugador(Constantes.WIDTH / 2, 60,PLAYER_IMAGE);
         Obstaculos = new ArrayList<>();
         Frutas = new ArrayList<>();
@@ -161,35 +150,44 @@ public class HelloApplication extends Application {
      **/
     private void run(GraphicsContext gc){
 
+        /**
+         * La imagen del cursor
+         **/
+        final Image CURSOR= new Image(getClass().getResourceAsStream("/img/cursorB.png"));
+
+        /**
+         * La imagen de los corazones que representan las vidas del jugador
+         **/
+        final Image VIDAS = new Image(getClass().getResourceAsStream("/img/heart.png"));
+
         //Si el puntaje es menor a 30 la velocidad es 2
         if(puntaje<30){
-            if (contador == 100) {
+            speed=2;
+            if (contador >= 100) {
                 contador = 0;
             }
-        }else if(puntaje>=30){
-            //Si el puntaje es mayor o igual a 30 la velocidad es 3
-            if (contador == 80) {
-                contador = 0;
-            }
+
+        }else if(puntaje>=30 && puntaje<60){
             speed=3;
-        }else if(puntaje>=50){
-            //Si el puntaje es mayor o igual a 50 la velocidad es 4
-            if (contador == 60) {
+            //Si el puntaje es mayor o igual a 30 la velocidad es 3
+            if (contador >= 80) {
                 contador = 0;
             }
+
+        }else if(puntaje>=60 && puntaje<100){
             speed=4;
-        }else if(puntaje>=80){
-            //Si el puntaje es mayor o igual a 80 la velocidad es 5
-            if (contador == 50) {
+            //Si el puntaje es mayor o igual a 60 la velocidad es 4
+            if (contador >= 60) {
                 contador = 0;
             }
-            speed=5;
+
         }else if(puntaje>=100){
-            //Si el puntaje es mayor o igual a 80 la velocidad es 8
-            if (contador == 20) {
+            speed=5;
+            //Si el puntaje es mayor o igual a 100 la velocidad es 5
+            if (contador >= 50) {
                 contador = 0;
             }
-            speed=8;
+
         }
 
         //Si el juego ya inicio y no se no han perdido las 3 vidas, se ejecuta el juego normalmente.
@@ -232,82 +230,92 @@ public class HelloApplication extends Application {
                 contador3 = 0;
             }
 
+            if(Obstaculos.size()>0) {
+                for (int i = 0; i < Obstaculos.size(); i++) {
+                    if(i<Obstaculos.size()){
+                        //Se muestran todos los elementos del array de obstaculos en el juego
+                        Obstaculos.get(i).draw(gc);
+                        if (Obstaculos.size() >= 20) {
+                            //Se elimina la fruta del juego cuando el array de obstaculos tiene 20 o mas elementos
+                            Obstaculos.remove(i);
+                        }
 
-            for (int i = 0; i < Obstaculos.size(); i++) {
-                if(Obstaculos.get(i).getPosY()<20){
-                    //Se elimina el obstaculo del juego una vez llega al limite superior del juego.
-                    Obstaculos.remove(i);
-                }
-                //Se muestran todos los elementos del array de obstaculos en el juego
-                Obstaculos.get(i).draw(gc);
+                        //En caso de colision con obstaculo
+                        if (Obstaculos.get(i).colision(jugador)) {
+                            colisiones++;
+                            contador2++;
+                            System.out.println(colisiones);
+                            if (contador2 > 0) {
+                                //Se elimina el obstaculo de la colision para que no cuente mas de una colision
+                                Obstaculos.remove(i);
+                            }
+                        } else {
+                            if (contador2 == 0) {
+                                //Velocidad normal
+                                Obstaculos.get(i).update(speed);
 
-                //En caso de colision con obstaculo
-                if (Obstaculos.get(i).colision(jugador)) {
-                    colisiones++;
-                    contador2++;
-                    System.out.println(colisiones);
-                    if (contador2 > 0) {
-                        //Se elimina el obstaculo de la colision para que no cuente mas de una colision
-                        Obstaculos.remove(i);
+                            } else {
+                                //Velocidad lenta en caso de COLISION
+                                Obstaculos.get(i).update(speed / 2);
+
+                            }
+                        }
+
                     }
-                } else {
+                }
+
+
+            }
+
+            if(Frutas.size()>0) {
+                for (int i = 0; i < Frutas.size(); i++) {
+                    if (i < Frutas.size()) {
+//                        System.out.println("Siii");
+                    //Se muestran todos los elementos del array de frutas en el juego
+                    Frutas.get(i).draw(gc);
+                    if (Frutas.size() >= 20) {
+                        //Se elimina la fruta del juego cuando el array de frutas tiene 20 o mas elementos
+                        Frutas.remove(i);
+                    }
+
+
+                    if (Frutas.get(i).colision(jugador)) {
+                        contador3++;
+                        Integer numeroFruta = Frutas.get(i).getNumero();
+                        Integer respuesta = obtenerRespuesta(operacion);
+
+                        //Se elimina la fruta del juego al ser comida.
+                        Frutas.remove(i);
+
+                        if (numeroFruta == respuesta) {
+                            //Si la fruta comida contiene la respuesta correcta a la pregunta, se agregan 10 puntos.
+                            puntaje = puntaje + 10;
+                            resuelta = true;
+                        } else {
+                            if (puntaje > 0) {
+                                //Si la fruta comida contiene una respuesta equivocada a la pregunta, se restan 10 puntos.
+                                puntaje = puntaje - 10;
+                            }
+                        }
+                    }
                     if (contador2 == 0) {
                         //Velocidad normal
-                        Obstaculos.get(i).update(speed);
+                        Frutas.get(i).update(speed);
+
 
                     } else {
                         //Velocidad lenta en caso de COLISION
-                        Obstaculos.get(i).update(speed / 2);
+                        Frutas.get(i).update(speed / 2);
+                    }
+
+                    if (contador3 != 0) {
+                        col = true;
+                    } else {
+                        col = false;
+                    }
 
                     }
                 }
-            }
-
-
-
-
-            for(int i=0; i<Frutas.size();i++){
-                if(Frutas.get(i).getPosY()<20){
-                    //Se elimina la fruta del juego una vez llega al limite superior del juego.
-                    Frutas.remove(i);
-                }
-                //Se muestran todos los elementos del array de frutas en el juego
-                Frutas.get(i).draw(gc);
-
-                if(Frutas.get(i).colision(jugador)){
-                    contador3++;
-                    Integer numeroFruta = Frutas.get(i).getNumero();
-                    Integer respuesta = obtenerRespuesta(operacion);
-
-                    //Se elimina la fruta del juego al ser comida.
-                    Frutas.remove(i);
-
-                    if(numeroFruta==respuesta){
-                        //Si la fruta comida contiene la respuesta correcta a la pregunta, se agregan 10 puntos.
-                        puntaje = puntaje + 10;
-                        resuelta = true;
-                    }else{
-                        if(puntaje>0) {
-                            //Si la fruta comida contiene una respuesta equivocada a la pregunta, se restan 10 puntos.
-                            puntaje = puntaje - 10;
-                        }
-                    }
-                }
-                if (contador2 == 0) {
-                    //Velocidad normal
-                    Frutas.get(i).update(speed);
-
-                } else {
-                    //Velocidad lenta en caso de COLISION
-                    Frutas.get(i).update(speed / 2);
-                }
-
-                if(contador3!=0){
-                    col=true;
-                }else{
-                    col=false;
-                }
-
             }
             jugador.draw(gc, col);
 
@@ -349,6 +357,7 @@ public class HelloApplication extends Application {
             } else if (colisiones==2) {
                 gc.drawImage(VIDAS,Constantes.WIDTH-30, 15, 17, 17);
             }
+
         }else{
             //Texto de bienvenida que muestra la forma de control del juego.
             if(!inicio){
